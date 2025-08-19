@@ -1,0 +1,29 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x0",
+      "device": "xc7z020clg400-1",
+      "gen_directory": "../../../../0716_final_DCP.gen/sources_1/bd/fifo",
+      "name": "fifo",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2020.2"
+    },
+    "design_tree": {
+      "axis_data_fifo_0": ""
+    },
+    "components": {
+      "axis_data_fifo_0": {
+        "vlnv": "xilinx.com:ip:axis_data_fifo:2.0",
+        "xci_name": "fifo_axis_data_fifo_0_0",
+        "xci_path": "ip\\fifo_axis_data_fifo_0_0\\fifo_axis_data_fifo_0_0.xci",
+        "inst_hier_path": "axis_data_fifo_0",
+        "parameters": {
+          "TDATA_NUM_BYTES": {
+            "value": "1"
+          }
+        }
+      }
+    }
+  }
+}

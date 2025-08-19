@@ -1,0 +1,333 @@
+{
+    "design": {
+        "design_info": {
+            "boundary_crc": "0xAD8CF817B87D6DC1",
+            "device": "xc7z020clg400-1",
+            "gen_directory": "../../../../0727_dcp.gen/sources_1/bd/divider_IP",
+            "name": "divider_IP",
+            "rev_ctrl_bd_flag": "RevCtrlBdOff",
+            "synth_flow_mode": "Hierarchical",
+            "tool_version": "2020.2",
+            "validated": "true"
+        },
+        "design_tree": {
+            "div_gen_0": "",
+            "axis_data_fifo_0": "",
+            "axis_data_fifo_1": "",
+            "proc_sys_reset_0": "",
+            "xlconstant_0": ""
+        },
+        "interface_ports": {
+            "divided_out": {
+                "mode": "Master",
+                "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+                "parameters": {
+                    "CLK_DOMAIN": {
+                        "value": "divider_IP_sys_clk",
+                        "value_src": "default"
+                    },
+                    "FREQ_HZ": {
+                        "value": "100000000",
+                        "value_src": "default"
+                    },
+                    "HAS_TKEEP": {
+                        "value": "0",
+                        "value_src": "const_prop"
+                    },
+                    "HAS_TLAST": {
+                        "value": "0",
+                        "value_src": "auto_prop"
+                    },
+                    "HAS_TREADY": {
+                        "value": "0",
+                        "value_src": "auto_prop"
+                    },
+                    "HAS_TSTRB": {
+                        "value": "0",
+                        "value_src": "const_prop"
+                    },
+                    "INSERT_VIP": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "LAYERED_METADATA": {
+                        "value": "xilinx.com:interface:datatypes:1.0 {TDATA {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} struct {field_fractional {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value fractional} enabled {attribs {resolve_type generated dependency fract_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency fract_width format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} real {fixed {fractwidth {attribs {resolve_type generated dependency fract_remainder_fractwidth format long minimum {} maximum {}} value 0} signed {attribs {resolve_type generated dependency fract_remainder_signed format bool minimum {} maximum {}} value true}}}}} field_remainder {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value remainder} enabled {attribs {resolve_type generated dependency remainder_enabled format bool minimum {} maximum {}} value true} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency remainder_width format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} real {fixed {fractwidth {attribs {resolve_type generated dependency fract_remainder_fractwidth format long minimum {} maximum {}} value 0} signed {attribs {resolve_type generated dependency fract_remainder_signed format bool minimum {} maximum {}} value true}}}}} field_quotient {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value quotient} enabled {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value true} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency quotient_width format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type generated dependency quotient_offset format long minimum {} maximum {}} value 16} integer {signed {attribs {resolve_type generated dependency quotient_signed format bool minimum {} maximum {}} value true}}}}}}} TDATA_WIDTH 32 TUSER {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} struct {field_divide_by_zero {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value divide_by_zero} enabled {attribs {resolve_type generated dependency divbyzero_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency divbyzero_width format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0}}} field_divisor_tuser {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value divisor_tuser} enabled {attribs {resolve_type generated dependency divisor_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency divisor_width format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type generated dependency divisor_offset format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}} field_dividend_tuser {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value dividend_tuser} enabled {attribs {resolve_type generated dependency dividend_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency dividend_width format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type generated dependency dividend_offset format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}}}}} TUSER_WIDTH 0}",
+                        "value_src": "ip_prop"
+                    },
+                    "PHASE": {
+                        "value": "0.000",
+                        "value_src": "default"
+                    },
+                    "TDATA_NUM_BYTES": {
+                        "value": "4",
+                        "value_src": "auto_prop"
+                    },
+                    "TDEST_WIDTH": {
+                        "value": "0",
+                        "value_src": "const_prop"
+                    },
+                    "TID_WIDTH": {
+                        "value": "0",
+                        "value_src": "const_prop"
+                    },
+                    "TUSER_WIDTH": {
+                        "value": "0",
+                        "value_src": "auto_prop"
+                    }
+                }
+            },
+            "divided_in": {
+                "mode": "Slave",
+                "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+                "parameters": {
+                    "CLK_DOMAIN": {
+                        "value": "divider_IP_sys_clk",
+                        "value_src": "default"
+                    },
+                    "FREQ_HZ": {
+                        "value": "100000000",
+                        "value_src": "default"
+                    },
+                    "HAS_TKEEP": {
+                        "value": "0"
+                    },
+                    "HAS_TLAST": {
+                        "value": "0"
+                    },
+                    "HAS_TREADY": {
+                        "value": "1"
+                    },
+                    "HAS_TSTRB": {
+                        "value": "0"
+                    },
+                    "INSERT_VIP": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "LAYERED_METADATA": {
+                        "value": "undef"
+                    },
+                    "PHASE": {
+                        "value": "0.000",
+                        "value_src": "default"
+                    },
+                    "TDATA_NUM_BYTES": {
+                        "value": "2"
+                    },
+                    "TDEST_WIDTH": {
+                        "value": "0"
+                    },
+                    "TID_WIDTH": {
+                        "value": "0"
+                    },
+                    "TUSER_WIDTH": {
+                        "value": "0"
+                    }
+                }
+            },
+            "divisor_in": {
+                "mode": "Slave",
+                "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+                "parameters": {
+                    "CLK_DOMAIN": {
+                        "value": "divider_IP_sys_clk",
+                        "value_src": "default"
+                    },
+                    "FREQ_HZ": {
+                        "value": "100000000",
+                        "value_src": "default"
+                    },
+                    "HAS_TKEEP": {
+                        "value": "0"
+                    },
+                    "HAS_TLAST": {
+                        "value": "0"
+                    },
+                    "HAS_TREADY": {
+                        "value": "1"
+                    },
+                    "HAS_TSTRB": {
+                        "value": "0"
+                    },
+                    "INSERT_VIP": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "LAYERED_METADATA": {
+                        "value": "undef"
+                    },
+                    "PHASE": {
+                        "value": "0.000",
+                        "value_src": "default"
+                    },
+                    "TDATA_NUM_BYTES": {
+                        "value": "2"
+                    },
+                    "TDEST_WIDTH": {
+                        "value": "0"
+                    },
+                    "TID_WIDTH": {
+                        "value": "0"
+                    },
+                    "TUSER_WIDTH": {
+                        "value": "0"
+                    }
+                }
+            }
+        },
+        "ports": {
+            "sys_clk": {
+                "type": "clk",
+                "direction": "I",
+                "parameters": {
+                    "ASSOCIATED_BUSIF": {
+                        "value": "divided_out:divided_in:divisor_in",
+                        "value_src": "default"
+                    },
+                    "CLK_DOMAIN": {
+                        "value": "divider_IP_sys_clk",
+                        "value_src": "default"
+                    },
+                    "FREQ_HZ": {
+                        "value": "100000000"
+                    },
+                    "FREQ_TOLERANCE_HZ": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "INSERT_VIP": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "PHASE": {
+                        "value": "0.000",
+                        "value_src": "default"
+                    }
+                }
+            },
+            "reset_rtl_0": {
+                "type": "rst",
+                "direction": "I",
+                "parameters": {
+                    "INSERT_VIP": {
+                        "value": "0",
+                        "value_src": "default"
+                    },
+                    "POLARITY": {
+                        "value": "ACTIVE_LOW"
+                    }
+                }
+            }
+        },
+        "components": {
+            "div_gen_0": {
+                "vlnv": "xilinx.com:ip:div_gen:5.1",
+                "xci_name": "divider_IP_div_gen_0_0",
+                "xci_path": "ip\\divider_IP_div_gen_0_0\\divider_IP_div_gen_0_0.xci",
+                "inst_hier_path": "div_gen_0"
+            },
+            "axis_data_fifo_0": {
+                "vlnv": "xilinx.com:ip:axis_data_fifo:2.0",
+                "xci_name": "divider_IP_axis_data_fifo_0_0",
+                "xci_path": "ip\\divider_IP_axis_data_fifo_0_0\\divider_IP_axis_data_fifo_0_0.xci",
+                "inst_hier_path": "axis_data_fifo_0",
+                "parameters": {
+                    "FIFO_DEPTH": {
+                        "value": "16"
+                    },
+                    "TDATA_NUM_BYTES": {
+                        "value": "2"
+                    }
+                }
+            },
+            "axis_data_fifo_1": {
+                "vlnv": "xilinx.com:ip:axis_data_fifo:2.0",
+                "xci_name": "divider_IP_axis_data_fifo_0_1",
+                "xci_path": "ip\\divider_IP_axis_data_fifo_0_1\\divider_IP_axis_data_fifo_0_1.xci",
+                "inst_hier_path": "axis_data_fifo_1",
+                "parameters": {
+                    "FIFO_DEPTH": {
+                        "value": "16"
+                    },
+                    "TDATA_NUM_BYTES": {
+                        "value": "2"
+                    }
+                }
+            },
+            "proc_sys_reset_0": {
+                "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+                "xci_name": "divider_IP_proc_sys_reset_0_0",
+                "xci_path": "ip\\divider_IP_proc_sys_reset_0_0\\divider_IP_proc_sys_reset_0_0.xci",
+                "inst_hier_path": "proc_sys_reset_0"
+            },
+            "xlconstant_0": {
+                "vlnv": "xilinx.com:ip:xlconstant:1.1",
+                "xci_name": "divider_IP_xlconstant_0_0",
+                "xci_path": "ip\\divider_IP_xlconstant_0_0\\divider_IP_xlconstant_0_0.xci",
+                "inst_hier_path": "xlconstant_0"
+            }
+        },
+        "interface_nets": {
+            "divided_in_1": {
+                "interface_ports": [
+                    "divided_in",
+                    "axis_data_fifo_0/S_AXIS"
+                ]
+            },
+            "axis_data_fifo_0_M_AXIS": {
+                "interface_ports": [
+                    "axis_data_fifo_0/M_AXIS",
+                    "div_gen_0/S_AXIS_DIVIDEND"
+                ]
+            },
+            "axis_data_fifo_1_M_AXIS": {
+                "interface_ports": [
+                    "axis_data_fifo_1/M_AXIS",
+                    "div_gen_0/S_AXIS_DIVISOR"
+                ]
+            },
+            "div_gen_0_M_AXIS_DOUT": {
+                "interface_ports": [
+                    "divided_out",
+                    "div_gen_0/M_AXIS_DOUT"
+                ]
+            },
+            "divisor_in_1": {
+                "interface_ports": [
+                    "divisor_in",
+                    "axis_data_fifo_1/S_AXIS"
+                ]
+            }
+        },
+        "nets": {
+            "sys_clk_1": {
+                "ports": [
+                    "sys_clk",
+                    "axis_data_fifo_1/s_axis_aclk",
+                    "axis_data_fifo_0/s_axis_aclk",
+                    "div_gen_0/aclk",
+                    "proc_sys_reset_0/slowest_sync_clk"
+                ]
+            },
+            "proc_sys_reset_0_peripheral_aresetn": {
+                "ports": [
+                    "proc_sys_reset_0/peripheral_aresetn",
+                    "axis_data_fifo_1/s_axis_aresetn",
+                    "axis_data_fifo_0/s_axis_aresetn"
+                ]
+            },
+            "xlconstant_0_dout": {
+                "ports": [
+                    "xlconstant_0/dout",
+                    "proc_sys_reset_0/dcm_locked"
+                ]
+            },
+            "reset_rtl_1": {
+                "ports": [
+                    "reset_rtl_0",
+                    "proc_sys_reset_0/ext_reset_in"
+                ]
+            }
+        }
+    }
+}

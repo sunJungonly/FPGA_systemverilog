@@ -1,0 +1,122 @@
+`timescale 1ns / 1ps
+module dark_channel #(
+    parameter DATA_DEPTH = 640,
+    parameter DATA_WIDTH = 8
+) (
+    input logic clk,
+    input logic pclk,
+    input logic rst,
+    //input port
+    input logic [23:0] pixel_in_888,
+    input logic DE,
+    input logic [9:0] x_pixel,  // 라인 내 현재 픽셀 좌표 
+    input logic [9:0] y_pixel,
+    input logic h_sync,
+    input logic v_sync,
+    //output port
+    output logic [DATA_WIDTH - 1:0] dark_channel_out,  // dark channel 결과값
+    output logic DE_out,  // 결과 데이터 유효 신호
+    output logic h_sync_out,
+    output logic v_sync_out,
+    output logic [$clog2(DATA_DEPTH)-1:0] x_pixel_out
+);
+
+    logic [7:0] r_8bit;
+    logic [7:0] g_8bit;
+    logic [7:0] b_8bit;
+    logic h_sync_wire, v_sync_wire;
+    assign r_8bit = {pixel_in_888[23:16]};
+    assign g_8bit = {pixel_in_888[15:8]};
+    assign b_8bit = {pixel_in_888[7:0]};
+
+    logic [    DATA_WIDTH - 1 : 0] src_min_img;
+    logic [    DATA_WIDTH - 1 : 0] src_block_min_img;
+    logic                          src_min_DE;
+    logic                          src_block_min_DE;
+    logic [$clog2(DATA_DEPTH)-1:0] src_min_x_pixel;
+    logic [$clog2(DATA_DEPTH)-1:0] src_block_min_x_pixel;
+    logic [        DATA_WIDTH-1:0] dark_channel_out1;
+
+    logic h_sync_out1, v_sync_out1, DE_out1;
+    logic h_sync_out_d1, v_sync_out_d1, DE_out_d1;
+    logic [DATA_WIDTH - 1:0] dark_channel_out_d1;
+    logic [$clog2(DATA_DEPTH)-1:0] x_pixel_out1, x_pixel_out_d1;
+
+    pixel_min U_pixel_min ( //픽셀 내에서 가장 어두운 채널을 뽑음
+        .clk        (clk),
+        .rst        (rst),
+        .r_in       (r_8bit),          // 8비트 R 채널 입력
+        .g_in       (g_8bit),          // 8비트 G 채널 입력
+        .b_in       (b_8bit),          // 8비트 B 채널 입력
+        .DE         (DE),
+        .h_sync     (h_sync),
+        .v_sync     (v_sync),
+        .x_pixel    (x_pixel),
+        .min_val_out(src_min_img),
+        .DE_out     (src_min_DE),
+        .h_sync_out (h_sync_wire),
+        .v_sync_out (v_sync_wire),
+        .x_pixel_out(src_min_x_pixel)
+    );
+
+    block_min #(
+        .DATA_DEPTH (DATA_DEPTH),
+        .DATA_WIDTH (DATA_WIDTH),
+        .KERNEL_SIZE(15)
+    ) U_block_min (  // 주변영역(블록) 내에서 최솟값 산출 => 지역적 진짜 어두운 영역 탐지
+        .clk        (clk),
+        .rst        (rst),
+        .pixel_in   (src_min_img),
+        .DE         (src_min_DE && DE),
+        .h_sync     (h_sync_wire),
+        .v_sync     (v_sync_wire),
+        .x_pixel    (src_min_x_pixel),
+        .y_pixel    (y_pixel),
+        .min_val_out(src_block_min_img),
+        .DE_out     (src_block_min_DE),
+        .h_sync_out (h_sync_out1),
+        .v_sync_out (v_sync_out1),
+        .x_pixel_out(src_block_min_x_pixel)
+    );
+
+
+    assign dark_channel_out1 = src_block_min_img;
+    assign DE_out1           = src_block_min_DE;
+    assign x_pixel_out1           = src_block_min_x_pixel;
+
+
+    always_ff @(posedge pclk or posedge rst) begin
+        if (rst) begin
+            h_sync_out_d1       <= 1'b0;
+            v_sync_out_d1       <= 1'b0;
+            DE_out_d1           <= 1'b0;
+            x_pixel_out_d1 <= '0;//
+        end else begin
+            h_sync_out_d1       <= h_sync_out1;
+            v_sync_out_d1       <= v_sync_out1;
+            DE_out_d1           <= DE_out1;
+            dark_channel_out_d1 <= dark_channel_out1;
+            x_pixel_out_d1 <= x_pixel_out1;
+        end
+    end
+
+    always_ff @(posedge pclk or posedge rst) begin
+        if (rst) begin
+            h_sync_out <= 0;
+            v_sync_out <= 0;
+            DE_out <= 0;
+            dark_channel_out <= 0;
+            x_pixel_out <= 0;
+        end else begin
+            h_sync_out       <= h_sync_out_d1;
+            v_sync_out       <= v_sync_out_d1;
+            DE_out           <= DE_out_d1;
+            dark_channel_out <= dark_channel_out_d1;
+            x_pixel_out      <= x_pixel_out_d1;
+        end
+    end
+
+    // assign dark_channel_out = dark_channel_out1;
+
+    // assign x_pixel_out       = src_block_min_x_pixel;
+endmodule

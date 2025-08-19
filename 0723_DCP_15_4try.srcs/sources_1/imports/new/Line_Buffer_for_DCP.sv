@@ -1,0 +1,142 @@
+`timescale 1ns / 1ps
+module Line_Buffer_for_DCP #(
+    parameter IMAGE_WIDTH = 640,
+    parameter DATA_WIDTH  = 8,
+    parameter NUM_ROWS    = 15
+) (
+    input  logic                           clk,
+    input  logic                           rst,
+
+    input  logic [DATA_WIDTH-1:0]          pixel_in, // rdata from frambuffer
+    input  logic                           DE,
+    input  logic h_sync,
+    input  logic v_sync,
+    input  logic [$clog2(IMAGE_WIDTH)-1:0] x_pixel,
+    input  logic [9:0] y_pixel,
+
+    output logic [DATA_WIDTH-1:0]          row_data_out [NUM_ROWS-1:0],
+    output logic DE_out,
+    output logic h_sync_out,
+    output logic v_sync_out,
+    output logic [$clog2(IMAGE_WIDTH)-1:0] x_pixel_out
+);
+
+    logic [DATA_WIDTH-1:0] ram_chain_out [NUM_ROWS-2:0]; // 14개 라인버퍼
+    logic [DATA_WIDTH-1:0] row_data_out_reg [NUM_ROWS-1:0];
+
+    assign row_data_out = row_data_out_reg;
+
+    logic DE_d1, DE_d2;
+    logic h_sync_d1, v_sync_d1;
+    logic [$clog2(IMAGE_WIDTH)-1:0] x_pixel_d1;
+    logic [1:0] counter;
+
+    always_ff @( posedge clk or posedge rst) begin
+        if(rst)begin
+            for(int j = 0; j < NUM_ROWS; j = j + 1)begin
+                row_data_out_reg[j] <= 0;
+            end
+            counter <= 0;
+            DE_out <= 0;
+        end
+        else if(x_pixel != x_pixel_d1)begin
+            counter <= 0;
+        end
+        // else if(y_pixel >= 14 && DE)begin
+        //     DE_out <= 1;
+        // end
+        else begin
+            counter <= counter + 1;
+            // if(counter == 1) DE_out <= 0;
+            if(counter == 2)begin
+                counter <= 0;
+                row_data_out_reg[0] <= pixel_in;
+                for(int j = 1; j < NUM_ROWS; j = j + 1)begin
+                    row_data_out_reg[j] <= ram_chain_out[j-1];
+                end
+            end
+        end
+    end
+
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst) begin
+            DE_d1 <= 1'b0;
+            DE_d2 <= 1'b0;
+            x_pixel_d1 <= '0;
+            h_sync_d1 <= 0;
+            v_sync_d1 <= 0;
+        end else begin
+            DE_d1 <= DE;
+            DE_d2 <= DE_d1;
+            h_sync_d1 <= h_sync;
+            v_sync_d1 <= v_sync;
+            x_pixel_d1 <= x_pixel;
+        end
+    end
+    
+    logic [9:0] x_pixel_ram;
+    assign x_pixel_ram = x_pixel >= 640 ? 639 : x_pixel;
+
+    genvar i;
+    generate
+        for(i = 0; i < NUM_ROWS - 1; i = i + 1)begin
+            data_mem #(
+                .DATA_WIDTH(DATA_WIDTH),
+                .WORD_WIDTH(IMAGE_WIDTH)
+            ) line_buffer_ram_dcp (
+                .clk(clk),
+                .rst(rst),
+                .wen((counter == 2)), // DE는 고려 필요  && DE
+                .waddr(x_pixel_ram),
+                .wdata((i==0) ? pixel_in : ram_chain_out[i-1]),
+                .ren(DE),
+                .raddr(x_pixel_ram),
+                .rdata(ram_chain_out[i])
+            );
+        end
+    endgenerate
+    // 최종적으로 지연된 제어 신호를 출력에 할당
+    // assign DE_out      = DE_d1;
+    assign DE_out = (y_pixel >= 14) && DE_d2;
+    assign h_sync_out = h_sync_d1;
+    assign v_sync_out = v_sync_d1;
+    assign x_pixel_out = x_pixel_d1;
+
+endmodule
+
+module data_mem #(
+    parameter DATA_WIDTH=24, 
+    parameter WORD_WIDTH=640,
+    parameter ADDR_WIDTH = $clog2(WORD_WIDTH)
+) (
+    input  logic                  wen,
+    input  logic                  ren,
+    input  logic                  clk,
+    input  logic                  rst,
+    input  logic [ADDR_WIDTH-1:0] waddr,
+    input  logic [ADDR_WIDTH-1:0] raddr,
+    input  logic [DATA_WIDTH-1:0] wdata,
+    output logic [DATA_WIDTH-1:0] rdata
+);
+
+   // integer i;
+
+   logic [DATA_WIDTH-1:0] ram[WORD_WIDTH-1:0];
+
+    reg [DATA_WIDTH-1:0] rdata_reg;
+
+   always_ff @(posedge clk) begin
+        // 쓰기 동작
+        if (wen) begin
+            ram[waddr] <= wdata;
+        end
+    end
+    
+   always_ff @(posedge clk) begin
+        if(ren)begin
+            rdata <= ram[raddr];
+        end
+    end
+    // assign rdata = rdata_reg;
+
+endmodule
